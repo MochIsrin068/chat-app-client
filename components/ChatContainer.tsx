@@ -5,7 +5,6 @@ import { convertUTCtoCustomTime } from "@/helpers/date";
 import List from "@mui/material/List";
 import { TMessageItem } from "@/types/message";
 import useChatContainer from "@/hooks/useChatContainer";
-import { useEffect, useRef } from "react";
 
 export default function ChatContainer() {
   const { messages, listRef } = useChatContainer();

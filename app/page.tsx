@@ -11,6 +11,7 @@ import ChatInputBar from "@/components/ChatInputBar";
 import { TContact, TContactItem } from "@/types/contact";
 import { TMessageItem } from "@/types/message";
 import SearchChatSection from "@/components/SearchChatSection";
+import { Suspense } from "react";
 
 const getContactChatData = async () => {
   const contactsChat = await getContactChat();
@@ -59,45 +60,51 @@ export default async function HomePage() {
             <Typography variant="h6" gutterBottom>
               Chats
             </Typography>
-            <Box>
-              {contactsChat?.map((chat: TContactItem) => (
-                <User
-                  id={chat?.id}
-                  key={chat?.id}
-                  photo={chat?.photo}
-                  subtitle={chat?.lastMessage?.message}
-                  title={chat?.name}
-                  date={convertUTCtoCustomFormat(chat?.lastMessage?.created_at)}
-                  isOnline
-                  isShowBadge
-                  isShowLastDateMessage
-                  isCanChat
-                  position={chat?.position}
-                />
-              ))}
-            </Box>
+            <Suspense>
+              <Box>
+                {contactsChat?.map((chat: TContactItem) => (
+                  <User
+                    id={chat?.id}
+                    key={chat?.id}
+                    photo={chat?.photo}
+                    subtitle={chat?.lastMessage?.message}
+                    title={chat?.name}
+                    date={convertUTCtoCustomFormat(
+                      chat?.lastMessage?.created_at
+                    )}
+                    isOnline
+                    isShowBadge
+                    isShowLastDateMessage
+                    isCanChat
+                    position={chat?.position}
+                  />
+                ))}
+              </Box>
+            </Suspense>
           </Box>
           {/* Contacts */}
           <Box className="px-3">
             <Typography variant="h6" gutterBottom>
               Contacts
             </Typography>
-            <Box>
-              {contacts?.map((contact: TContact) => (
-                <User
-                  id={contact?.id}
-                  key={contact?.id}
-                  photo={contact?.photo}
-                  subtitle={contact?.position}
-                  title={contact?.name}
-                  isOnline={false}
-                  isShowBadge={false}
-                  isShowLastDateMessage={false}
-                  isCanChat
-                  position={contact?.position}
-                />
-              ))}
-            </Box>
+            <Suspense>
+              <Box>
+                {contacts?.map((contact: TContact) => (
+                  <User
+                    id={contact?.id}
+                    key={contact?.id}
+                    photo={contact?.photo}
+                    subtitle={contact?.position}
+                    title={contact?.name}
+                    isOnline={false}
+                    isShowBadge={false}
+                    isShowLastDateMessage={false}
+                    isCanChat
+                    position={contact?.position}
+                  />
+                ))}
+              </Box>
+            </Suspense>
           </Box>
         </Box>
 
@@ -107,8 +114,12 @@ export default async function HomePage() {
           <UserFocus />
           <Divider />
           <Box className="relative" sx={{ height: "calc(100% - 68px)" }}>
-            <ChatContainer />
-            <ChatInputBar />
+            <Suspense>
+              <ChatContainer />
+            </Suspense>
+            <Suspense>
+              <ChatInputBar />
+            </Suspense>
           </Box>
         </Box>
       </Stack>
